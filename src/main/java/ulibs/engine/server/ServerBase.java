@@ -31,14 +31,14 @@ public abstract class ServerBase extends CommonBase {
 					batch.createNewFile();
 				}
 				
-				PrintWriter writer = new PrintWriter(batch);
-				writer.println("@echo off");
-				writer.println("title " + title);
-				writer.println("java -jar " + filename);
-				writer.println("pause");
-				writer.println("exit");
-				writer.flush();
-				writer.close();
+				try (PrintWriter writer = new PrintWriter(batch)) {
+					writer.println("@echo off");
+					writer.println("title " + title);
+					writer.println("java -jar " + filename);
+					writer.println("pause");
+					writer.println("exit");
+					writer.flush();
+				}
 				
 				Runtime.getRuntime().exec("cmd /c start \"\" " + batch.getPath());
 				return false;
